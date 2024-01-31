@@ -20,12 +20,16 @@ class PrepareCallback:
         )
         return tf.keras.callbacks.TensorBoard(log_dir=tb_running_log_dir)
     
-
     @property
     def _create_ckpt_callbacks(self):
+        filepath = self.config.checkpoint_model_filepath
+        if not os.path.isabs(filepath):
+            # If the path is not absolute, make it absolute
+            filepath = os.path.abspath(filepath)
+        
         return tf.keras.callbacks.ModelCheckpoint(
-            filepath=self.config.checkpoint_model_filepath,
-            save_best_only=True
+            filepath=filepath,
+            save_best_only = True
         )
 
 
